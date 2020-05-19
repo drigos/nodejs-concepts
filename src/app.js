@@ -4,6 +4,7 @@ import cors from 'cors';
 import { uuid } from 'uuidv4';
 
 import jsonResponseFormatter from './middleware/json-response-formatter';
+import malformedInputErrorHandler from './middleware/malformed-input-error-handler'
 import errorHandler from './middleware/error-handler';
 import internalServerErrorHandler from './middleware/internal-server-error-handler';
 
@@ -17,9 +18,9 @@ const app = express();
 // Application middleware:
 //
 
+app.use(jsonResponseFormatter);
 app.use(cors());
 app.use(express.json());
-app.use(jsonResponseFormatter);
 
 const repositories = [];
 
@@ -69,6 +70,8 @@ app.post("/repositories/:id/like", (request, response) => {
 //
 // Error handlers:
 //
+
+app.use(malformedInputErrorHandler);
 app.use(errorHandler);
 app.use(internalServerErrorHandler);
 

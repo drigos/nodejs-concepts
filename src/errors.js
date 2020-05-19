@@ -103,3 +103,20 @@ export class InternalServerError extends ApplicationError {
     }
   }
 }
+
+export class MalformedInputError extends ApplicationError {
+  constructor(message, { originalError }) {
+    super(message, {
+      code: 'MalformedInput',
+      status: 400,
+    });
+
+    Object.defineProperty(this, 'originalError', originalError);
+  }
+
+  static fromJsonSyntaxError(originalError) {
+    return new MalformedInputError(originalError.message, {
+      originalError,
+    });
+  }
+}
