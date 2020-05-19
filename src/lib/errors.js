@@ -91,6 +91,23 @@ export class NotUniqueError extends ApplicationError {
   }
 }
 
+export class NotFoundError extends ApplicationError {
+  get subjects() {
+    return this.extensions && this.extensions.subjects;
+  }
+
+  constructor(message, { subjects }) {
+    super(
+      message,
+      {
+        code: 'NotFound',
+        status: 404,
+      },
+      { subjects: [].concat(subjects) }
+    );
+  }
+}
+
 export class InternalServerError extends ApplicationError {
   constructor(originalError) {
     super('Internal server error', {
