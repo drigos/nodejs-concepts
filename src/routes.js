@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { uuid } from 'uuidv4';
 
-import { NotUniqueError } from './errors';
+import { NotUniqueError } from './lib/errors';
 import findDuplicatedKeys from './lib/findDuplicatedKeys';
 import createRepositoryValidator from './validators/create-repository';
 

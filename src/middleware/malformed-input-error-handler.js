@@ -1,4 +1,4 @@
-import { MalformedInputError } from '../errors';
+import { MalformedInputError } from '../lib/errors';
 
 export default async (err, req, res, next) => {
   if (err.type === 'entity.parse.failed') {

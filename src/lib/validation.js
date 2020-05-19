@@ -1,4 +1,4 @@
-import { InvalidInputError } from '../errors';
+import { InvalidInputError } from './errors';
 
 export function makeValidateFn(schema, message) {
   return (...input) => {

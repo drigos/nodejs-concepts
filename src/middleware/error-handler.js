@@ -1,4 +1,4 @@
-import { ApplicationError } from '../errors';
+import { ApplicationError } from '../lib/errors';
 
 function isHandleableError(err) {
   return (err instanceof ApplicationError);
