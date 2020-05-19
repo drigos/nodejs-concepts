@@ -79,8 +79,16 @@ routes.delete("/repositories/:id", ({ params }, response) => {
   return response.sendStatus(204);
 });
 
-routes.post("/repositories/:id/like", (request, response) => {
-  // TODO
+routes.post("/repositories/:id/like", ({ params }, response) => {
+  const repositoryIndex = repositories.findIndex((repository) => repository.id === params.id);
+
+  if (repositoryIndex < 0) {
+    throw new NotFoundError('Repository not found', { subjects: 'id' });
+  }
+
+  repositories[repositoryIndex].likes += 1;
+
+  return response.json(repositories[repositoryIndex]);
 });
 
 export default routes;
