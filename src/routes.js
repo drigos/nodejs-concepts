@@ -12,7 +12,7 @@ const routes = new Router();
 const repositories = [];
 
 routes.get("/repositories", (_, response) => {
-  response.json(repositories);
+  return response.json(repositories);
 });
 
 routes.post("/repositories", ({ body }, response) => {
@@ -36,7 +36,7 @@ routes.post("/repositories", ({ body }, response) => {
   };
   repositories.push(repository);
 
-  response
+  return response
     .status(201)
     .location(`/repositories/${repository.id}`)
     .json(repository);
@@ -69,11 +69,14 @@ routes.put("/repositories/:id", ({ params, body }, response) => {
   const updatedRepository = { ...removedRepository, ...repositoryData }
   repositories.push(updatedRepository);
 
-  response.json(updatedRepository);
+  return response.json(updatedRepository);
 });
 
-routes.delete("/repositories/:id", (request, response) => {
-  // TODO
+routes.delete("/repositories/:id", ({ params }, response) => {
+  const repositoryIndex = repositories.findIndex((repository) => repository.id === params.id);
+  repositories.splice(repositoryIndex, 1);
+
+  return response.sendStatus(204);
 });
 
 routes.post("/repositories/:id/like", (request, response) => {
