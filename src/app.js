@@ -3,6 +3,8 @@ import cors from 'cors';
 
 import { uuid } from 'uuidv4';
 
+import createRepositoryValidator from './validators/create-repository';
+
 const app = express();
 
 app.use(express.json());
@@ -15,8 +17,10 @@ app.get("/repositories", (request, response) => {
 });
 
 app.post("/repositories", (request, response) => {
+  const repositoryData = createRepositoryValidator(request.body);
+
   const repository = {
-    ...request.body,
+    ...repositoryData,
     id: uuid(),
     likes: 0,
   };
