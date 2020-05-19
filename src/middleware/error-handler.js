@@ -1,7 +1,7 @@
 import { ApplicationError } from '../lib/errors';
 
 function isHandleableError(err) {
-  return (err instanceof ApplicationError);
+  return err instanceof ApplicationError;
 }
 
 export default async (err, req, res, next) => {

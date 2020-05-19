@@ -4,7 +4,7 @@ const toUpperCamelCase = (str, separator = /[._\s:-]/) => {
     .map((substr) => substr.toLowerCase())
     .map((substr) => substr.replace(/^./, (match) => match.toUpperCase()))
     .join('');
-}
+};
 
 export class ApplicationError extends Error {
   constructor(message, codification, extensions) {
