@@ -73,3 +73,20 @@ export class InvalidInputError extends ApplicationError {
     return new InvalidInputError(message || joiError.message, invalidInput);
   }
 }
+
+export class NotUniqueError extends ApplicationError {
+  get subjects() {
+    return this.extensions && this.extensions.subjects;
+  }
+
+  constructor(message, { subjects }) {
+    super(
+      message,
+      {
+        code: 'NotUnique',
+        status: 409,
+      },
+      { subjects: [].concat(subjects) }
+    );
+  }
+}

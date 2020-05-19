@@ -3,6 +3,8 @@ import cors from 'cors';
 
 import { uuid } from 'uuidv4';
 
+import findDuplicatedKeys from './lib/findDuplicatedKeys';
+import { NotUniqueError } from './errors';
 import createRepositoryValidator from './validators/create-repository';
 
 const app = express();
@@ -18,6 +20,17 @@ app.get("/repositories", (request, response) => {
 
 app.post("/repositories", (request, response) => {
   const repositoryData = createRepositoryValidator(request.body);
+
+  const subjects = findDuplicatedKeys(repositories, repositoryData, [
+    'title',
+    'url',
+  ]);
+
+  if (subjects.length) {
+    throw new NotUniqueError('Repository already registered', { subjects });
+  }
+
+  // TODO: verify whether `repositoryData.url` exists in GitHub API
 
   const repository = {
     ...repositoryData,
