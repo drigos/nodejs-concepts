@@ -90,3 +90,16 @@ export class NotUniqueError extends ApplicationError {
     );
   }
 }
+
+export class InternalServerError extends ApplicationError {
+  constructor(originalError) {
+    super('Internal server error', {
+      type: 'InternalServerError',
+      status: 500,
+    });
+
+    if (originalError.extensions && originalError.extensions.traceId) {
+      this.extensions = { traceId: originalError.extensions.traceId };
+    }
+  }
+}

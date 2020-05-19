@@ -5,6 +5,7 @@ import { uuid } from 'uuidv4';
 
 import jsonResponseFormatter from './middleware/json-response-formatter';
 import errorHandler from './middleware/error-handler';
+import internalServerErrorHandler from './middleware/internal-server-error-handler';
 
 import { NotUniqueError } from './errors';
 import findDuplicatedKeys from './lib/findDuplicatedKeys';
@@ -69,5 +70,6 @@ app.post("/repositories/:id/like", (request, response) => {
 // Error handlers:
 //
 app.use(errorHandler);
+app.use(internalServerErrorHandler);
 
 export default app;
