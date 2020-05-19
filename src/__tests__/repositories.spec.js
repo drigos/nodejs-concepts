@@ -26,9 +26,9 @@ describe("Repositories", () => {
     const repository = await request(app)
       .post("/repositories")
       .send({
-        url: "https://github.com/Rocketseat/umbriel",
-        title: "Umbriel",
-        techs: ["Node", "Express", "TypeScript"]
+        url: "https://github.com/Rocketseat/unform",
+        title: "Unform",
+        techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
       });
 
     const response = await request(app).get("/repositories");
@@ -37,9 +37,9 @@ describe("Repositories", () => {
       expect.arrayContaining([
         {
           id: repository.body.id,
-          url: "https://github.com/Rocketseat/umbriel",
-          title: "Umbriel",
-          techs: ["Node", "Express", "TypeScript"],
+          url: "https://github.com/Rocketseat/unform",
+          title: "Unform",
+          techs: ["React", "ReactNative", "TypeScript", "ContextApi"],
           likes: 0
         }
       ])
@@ -50,59 +50,55 @@ describe("Repositories", () => {
     const repository = await request(app)
       .post("/repositories")
       .send({
-        url: "https://github.com/Rocketseat/umbriel",
-        title: "Umbriel",
-        techs: ["Node", "Express", "TypeScript"]
+        url: "https://github.com/Rocketseat/rocketseat-vscode-reactjs-snippets",
+        title: "VSCode ReactJS snippets",
+        techs: ["JSON"]
       });
 
     const response = await request(app)
       .put(`/repositories/${repository.body.id}`)
       .send({
-        url: "https://github.com/Rocketseat/unform",
-        title: "Unform",
-        techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
+        url: "https://github.com/Rocketseat/rocketseat-vscode-react-native-snippets",
+        title: "VSCode React Native snippets",
+        techs: ["JSON"]
       });
 
     expect(isUuid(response.body.id)).toBe(true);
 
     expect(response.body).toMatchObject({
-      url: "https://github.com/Rocketseat/unform",
-      title: "Unform",
-      techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
+      url: "https://github.com/Rocketseat/rocketseat-vscode-react-native-snippets",
+      title: "VSCode React Native snippets",
+      techs: ["JSON"]
     });
   });
 
   it("should not be able to update a repository that does not exist", async () => {
-    await request(app).put(`/repositories/123`).expect(400);
+    await request(app).put(`/repositories/123`).expect(404);
   });
 
   it("should not be able to update repository likes manually", async () => {
     const repository = await request(app)
       .post("/repositories")
       .send({
-        url: "https://github.com/Rocketseat/umbriel",
-        title: "Umbriel",
-        techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
+        url: "https://github.com/Rocketseat/ambiente-react-native",
+        title: "Ambiente React Native",
+        techs: ["Markdown"]
       });
 
-    const response = await request(app)
+    await request(app)
       .put(`/repositories/${repository.body.id}`)
       .send({
         likes: 15
-      });
-
-    expect(response.body).toMatchObject({
-      likes: 0
-    });
+      }).expect(400);
   });
 
   it("should be able to delete the repository", async () => {
     const response = await request(app)
       .post("/repositories")
       .send({
-        url: "https://github.com/Rocketseat/umbriel",
-        title: "Umbriel",
-        techs: ["Node", "Express", "TypeScript"]
+        url: "https://github.com/Rocketseat/bootcamp-gostack-desafios",
+        title: "Bootcamp GoStack desafios",
+        techs: ["Markdown"]
       });
 
     await request(app).delete(`/repositories/${response.body.id}`).expect(204);
@@ -114,7 +110,7 @@ describe("Repositories", () => {
     expect(repository).toBe(undefined);
   });
 
-  it("should not be able to delete a repository that does not exist", async () => {
-    await request(app).delete(`/repositories/123`).expect(400);
+  it("should be idempotent delete operation", async () => {
+    await request(app).delete(`/repositories/123`).expect(204);
   });
 });
