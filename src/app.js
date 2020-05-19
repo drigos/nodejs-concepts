@@ -6,6 +6,7 @@ import { uuid } from 'uuidv4';
 import jsonResponseFormatter from './middleware/json-response-formatter';
 import malformedInputErrorHandler from './middleware/malformed-input-error-handler'
 import errorHandler from './middleware/error-handler';
+import traceErrors from './middleware/trace-errors';
 import internalServerErrorHandler from './middleware/internal-server-error-handler';
 
 import { NotUniqueError } from './errors';
@@ -73,6 +74,7 @@ app.post("/repositories/:id/like", (request, response) => {
 
 app.use(malformedInputErrorHandler);
 app.use(errorHandler);
+app.use(traceErrors);
 app.use(internalServerErrorHandler);
 
 export default app;
