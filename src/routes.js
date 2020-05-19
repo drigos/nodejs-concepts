@@ -11,7 +11,7 @@ const routes = new Router();
 const repositories = [];
 
 routes.get("/repositories", (request, response) => {
-  // TODO
+  response.json(repositories);
 });
 
 routes.post("/repositories", (request, response) => {
