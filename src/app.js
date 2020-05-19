@@ -3,11 +3,13 @@ import cors from 'cors';
 
 import { uuid } from 'uuidv4';
 
-import jsonResponseFormatter from './middleware/json-response-formatter';
-import malformedInputErrorHandler from './middleware/malformed-input-error-handler'
-import errorHandler from './middleware/error-handler';
-import traceErrors from './middleware/trace-errors';
-import internalServerErrorHandler from './middleware/internal-server-error-handler';
+import {
+  traceErrors,
+  errorHandler,
+  jsonResponseFormatter,
+  internalServerErrorHandler,
+  malformedInputErrorHandler,
+} from './middleware';
 
 import { NotUniqueError } from './errors';
 import findDuplicatedKeys from './lib/findDuplicatedKeys';
