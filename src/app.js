@@ -3,14 +3,27 @@ import cors from 'cors';
 
 import { uuid } from 'uuidv4';
 
-import findDuplicatedKeys from './lib/findDuplicatedKeys';
+import {
+  traceErrors,
+  errorHandler,
+  jsonResponseFormatter,
+  internalServerErrorHandler,
+  malformedInputErrorHandler,
+} from './middleware';
+
 import { NotUniqueError } from './errors';
+import findDuplicatedKeys from './lib/findDuplicatedKeys';
 import createRepositoryValidator from './validators/create-repository';
 
 const app = express();
 
-app.use(express.json());
+//
+// Application middleware:
+//
+
+app.use(jsonResponseFormatter);
 app.use(cors());
+app.use(express.json());
 
 const repositories = [];
 
@@ -57,4 +70,13 @@ app.post("/repositories/:id/like", (request, response) => {
   // TODO
 });
 
-module.exports = app;
+//
+// Error handlers:
+//
+
+app.use(malformedInputErrorHandler);
+app.use(errorHandler);
+app.use(traceErrors);
+app.use(internalServerErrorHandler);
+
+export default app;
