@@ -1,7 +1,7 @@
-const express = require("express");
-const cors = require("cors");
+import express from 'express';
+import cors from 'cors';
 
-const { uuid } = require("uuidv4");
+import { uuid } from 'uuidv4';
 
 const app = express();
 
