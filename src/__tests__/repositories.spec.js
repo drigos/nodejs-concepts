@@ -114,7 +114,8 @@ describe('Repositories', () => {
     expect(repository).toBe(undefined);
   });
 
-  it('should be idempotent delete operation', async () => {
+  it('should be idempotent delete operation', async (done) => {
     await request(app).delete('/repositories/123').expect(204);
+    done();
   });
 });
