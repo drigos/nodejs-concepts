@@ -4,17 +4,23 @@
   "main": "src/server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon",
+    "start": "nodemon",
+    "start:debug": "nodemon --inspect",
+    "start:dist": "node ./dist/index.js",
+    "build": "sucrase ./src -d ./dist --transforms imports",
     "test": "jest"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "uuidv4": "^6.0.7"
   },
   "devDependencies": {
+    "@sucrase/jest-plugin": "^2.0.0",
     "jest": "^25.2.6",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.4",
+    "sucrase": "^3.15.0",
     "supertest": "^4.0.2"
   }
 }
